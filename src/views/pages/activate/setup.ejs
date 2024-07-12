@@ -1,0 +1,162 @@
+<%- include('../../partials/doctype.ejs') %>
+
+<head>
+    <%- include('../../partials/header') %>
+    <title><%= page.display %> - <%= app.name %></title>
+    <%- include('../../partials/theme_css') %>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+            <!-- Navbar -->
+            <%- include('../../partials/navbar') %>
+            <!-- / Navbar -->
+
+            <!-- Layout container -->
+            <div class="layout-page">
+                <!-- Content wrapper -->
+                <div class="content-wrapper">
+                    <!-- Content -->
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="col-12 mb-4">
+                            <small class="text-light fw-medium mt-2">Kurulum</small>
+                            <div class="bs-stepper wizard-modern wizard-modern-example mt-2">
+                                <div class="bs-stepper-header">
+                                    <div class="step active" data-target="#database-connection-detail">
+                                        <button type="button" class="step-trigger" aria-selected="true">
+                                            <span class="bs-stepper-circle">1</span>
+                                            <span class="bs-stepper-label">
+                                                <span class="bs-stepper-title">Veritabanı</span>
+                                                <span class="bs-stepper-subtitle">Veritabanı bağlantı detayları</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="line">
+                                        <i class="ti ti-chevron-right"></i>
+                                    </div>
+                                    <div class="step" data-target="#erp-detail">
+                                        <button type="button" class="step-trigger" aria-selected="false">
+                                            <span class="bs-stepper-circle">2</span>
+                                            <span class="bs-stepper-label">
+                                                <span class="bs-stepper-title">ERP</span>
+                                                <span class="bs-stepper-subtitle">Entegrasyon yapılacak ERP bilgileri</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="line">
+                                        <i class="ti ti-chevron-right"></i>
+                                    </div>
+                                    <div class="step" data-target="#params-detail">
+                                        <button type="button" class="step-trigger" aria-selected="false">
+                                            <span class="bs-stepper-circle">3</span>
+                                            <span class="bs-stepper-label">
+                                                <span class="bs-stepper-title">Parametreler</span>
+                                                <span class="bs-stepper-subtitle">Firma detay bilgileri</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bs-stepper-content">
+                                    <form onsubmit="return false" id="setup-form"></form>
+                                    <div id="database-connection-detail" class="content active dstepper-block">
+                                        <div class="content-header mb-3">
+                                            <h6 class="mb-0">Veritabanı Bağlantısı</h6>
+                                            <small>Veritabanı bağlantısı için aşağıdaki bilgileri giriniz...</small>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-xl-10 col-12 mb-xl-5 mb-0">
+                                                <label class="form-label" for="mssql-connection-string">MSSQL Bağlantı Cümlesi</label>
+                                                <input type="text" id="mssql-connection-string" class="form-control" name="mssql-connection-string" placeholder="mssql://Server=...">
+                                                <div id="mssql-connection-string-feedback"></div>
+                                            </div>
+                                            <div class="col-xl-2 col-12 d-grid mb-xl-5 mb-4">
+                                                <button id="check-mssql-connection-string" class="btn btn-label-info waves-effect mt-xl-4 mt-1">
+                                                    <i class="ti ti-database-search me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Kontrol Et</span>
+                                                </button>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button class="btn btn-label-secondary btn-prev waves-effect" disabled="">
+                                                    <i class="ti ti-arrow-left me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Önceki</span>
+                                                </button>
+                                                <button class="btn btn-primary btn-next waves-effect waves-light">
+                                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Sonraki</span>
+                                                    <i class="ti ti-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="erp-detail" class="content">
+                                        <div class="content-header mb-3">
+                                            <h6 class="mb-0">ERP Bilgileri</h6>
+                                            <small>Entegre olunacak ERP bilgilerini giriniz...</small>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-12 mb-4">
+                                                <label class="form-label" for="erp-app">ERP Uygulaması</label>
+                                                <select class="select2" id="erp-app">
+                                                    <option label=" "></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button class="btn btn-label-secondary btn-prev waves-effect">
+                                                    <i class="ti ti-arrow-left me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Önceki</span>
+                                                </button>
+                                                <button class="btn btn-primary btn-next waves-effect waves-light">
+                                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Sonraki</span>
+                                                    <i class="ti ti-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="params-detail" class="content">
+                                        <div class="content-header mb-3">
+                                            <h6 class="mb-0">Parametreler</h6>
+                                            <small>Entegrasyon için gerekli parametreleri doldurunuz...</small>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div id="app-variables-inputs">
+                                                <div class="alert alert-info d-flex align-items-center btn-prev" role="alert">
+                                                    <span class="alert-icon text-info me-2">
+                                                        <i class="ti ti-arrow-left"></i>
+                                                    </span>
+                                                    Lütfen ERP uygulaması seçiniz...
+                                                </div>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button class="btn btn-label-secondary btn-prev waves-effect">
+                                                    <i class="ti ti-arrow-left me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Geri</span>
+                                                </button>
+                                                <button class="btn btn-success btn-submit waves-effect waves-light">Tamamla</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / Content -->
+                    <!-- Footer -->
+                    <%- include('../../partials/footer') %>
+                    <!-- / Footer -->
+
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+    </div>
+    <%- include('../../partials/theme_js') %>
+</body>
+
+</html>

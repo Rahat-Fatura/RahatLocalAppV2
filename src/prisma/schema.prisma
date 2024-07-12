@@ -1,0 +1,78 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = "[[DATABASE_URL]]"
+}
+
+model Companies {
+  id          Int       @id @default(autoincrement())
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @default(now()) @updatedAt
+  deleted_at  DateTime?
+  app         String
+  code        String
+  apikey      String    @unique
+  isActivated Boolean   @default(false)
+  cron        Boolean   @default(false)
+  rmq         Boolean   @default(false)
+  series      String    @default("{\"einvoice\":\"\",\"earchive\":\"\",\"edespatch\": \"\"}")
+  Logs        Logs[]
+  Configs     Configs[]
+  Queries     Queries[]
+  Docs        Docs[]
+}
+
+model Queries {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now()) @updatedAt
+  deleted_at DateTime?
+  company    Companies? @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId  Int?
+  queries    String?    @db.Text
+  type       String
+
+  @@unique([companyId, type])
+}
+
+model Docs {
+  id            Int       @id @default(autoincrement())
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @default(now()) @updatedAt
+  deleted_at    DateTime?
+  company       Companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId     Int
+  external_id   String    @db.Text
+  external_code String    @db.Text
+  json          String?   @default("{}") @db.Text
+  status        Int       @default(100)
+  status_desc   String    @db.Text
+  movement_type String    @db.Text
+  document_type String    @db.Text
+
+  @@unique([id, companyId])
+}
+
+model Logs {
+  id         Int        @id @default(autoincrement())
+  created_at DateTime   @default(now())
+  updated_at DateTime   @default(now()) @updatedAt
+  deleted_at DateTime?
+  company    Companies? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  companyId  Int?
+  log        String?
+}
+
+model Configs {
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  company    Companies @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  companyId  Int       @unique
+  config     String?   @db.Text
+}

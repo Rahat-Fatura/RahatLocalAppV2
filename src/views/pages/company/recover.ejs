@@ -1,0 +1,101 @@
+<%- include('../../partials/doctype.ejs') %>
+
+<head>
+    <%- include('../../partials/header') %>
+    <title><%= page.display %> - <%= app.name %></title>
+    <%- include('../../partials/theme_css') %>
+</head>
+
+<body>
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+            <%- include('../../partials/navbar') %>
+            <div class="layout-page">
+                <div class="content-wrapper">
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="col-12 mb-4">
+                            <small class="text-light fw-medium mt-2">Firma Geri Yükleme</small>
+                            <div class="bs-stepper wizard-modern wizard-modern-example mt-2">
+                                <div class="bs-stepper-header">
+                                    <div class="step active" data-target="#api-key">
+                                        <button type="button" class="step-trigger" aria-selected="true">
+                                            <span class="bs-stepper-circle">1</span>
+                                            <span class="bs-stepper-label">
+                                                <span class="bs-stepper-title">API</span>
+                                                <span class="bs-stepper-subtitle">Key bilgisi</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                    <div class="line">
+                                        <i class="ti ti-chevron-right"></i>
+                                    </div>
+                                    <div class="step" data-target="#company-detail">
+                                        <button type="button" class="step-trigger" aria-selected="true">
+                                            <span class="bs-stepper-circle">2</span>
+                                            <span class="bs-stepper-label">
+                                                <span class="bs-stepper-title">Firma Bilgisi</span>
+                                                <span class="bs-stepper-subtitle">Firma detay bilgileri</span>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="bs-stepper-content">
+                                    <form onsubmit="return false" id="setup-form"></form>
+                                    <div id="api-key" class="content active dstepper-block">
+                                        <div class="content-header mb-3">
+                                            <h6 class="mb-0">API Bilgileri</h6>
+                                            <small>Burada firmanın API bilgisi girilecektir</small>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-12 mb-xl-5 mb-0">
+                                                <label class="form-label" for="company-api-key">Firma API Key</label>
+                                                <input type="text" id="company-api-key" class="form-control" name="company-api-key">
+                                                <div id="company-api-key-feedback"></div>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button class="btn btn-label-secondary btn-prev waves-effect">
+                                                    <i class="ti ti-arrow-left me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Önceki</span>
+                                                </button>
+                                                <button class="btn btn-primary btn-next waves-effect waves-light">
+                                                    <span class="align-middle d-sm-inline-block d-none me-sm-1">Sonraki</span>
+                                                    <i class="ti ti-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="company-detail" class="content">
+                                        <div class="content-header mb-3">
+                                            <h6 class="mb-0">Firma Bilgileri</h6>
+                                            <small>Burada firma detay bilgisi eklenecektir</small>
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-12 mb-xl-5 mb-0">
+                                                <label class="form-label" for="company-tax-number">Firma Vergi / TC Kimlik No</label>
+                                                <input type="text" id="company-tax-number" class="form-control" name="company-tax-number">
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-between">
+                                                <button class="btn btn-label-secondary btn-prev waves-effect">
+                                                    <i class="ti ti-arrow-left me-sm-1 me-0"></i>
+                                                    <span class="align-middle d-sm-inline-block d-none">Geri</span>
+                                                </button>
+                                                <button class="btn btn-success btn-submit waves-effect waves-light">Tamamla</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%- include('../../partials/footer') %>
+                    <div class="content-backdrop fade"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <div class="drag-target"></div>
+    </div>
+    <%- include('../../partials/theme_js') %>
+</body>
+
+</html>

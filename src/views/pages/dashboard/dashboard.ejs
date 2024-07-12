@@ -1,0 +1,39 @@
+<%- include('../../partials/doctype.ejs') %>
+
+<head>
+    <%- include('../../partials/header') %>
+    <title><%= page.display %> - <%= app.name %></title>
+    <%- include('../../partials/theme_css') %>
+    <link rel="stylesheet" href="/vendor/css/pages/page-auth.css" />
+</head>
+
+<body>
+    <%- include('../../partials/navbar') %>
+    <div class="container-xxl">
+        <div class="authentication-wrapper authentication-basic container-p-y">
+            <div class="authentication-inner py-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-1 pt-2">Firma ve Dönem Seçiniz</h4>
+                        <div class="mb-3">
+                            <label for="companies" class="form-label">Firma</label>
+                            <select id="companies" class="select2 form-select form-select-lg" data-allow-clear="true">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="mb-5">
+                            <button class="btn btn-primary d-grid w-100" type="button" id="login">Giriş</button>
+                        </div>
+                        <hr>
+                        <div class="mb-3">
+                            <a href="/company/create" class="btn btn-label-github d-grid w-100 me-2" type="button"> Yeni Firma Ekle</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../../partials/theme_js') %>
+</body>
+
+</html>

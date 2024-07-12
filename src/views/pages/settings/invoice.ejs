@@ -1,0 +1,152 @@
+<%- include('../../partials/doctype.ejs') %>
+
+<head>
+    <%- include('../../partials/header') %>
+    <title><%= page.display %> - <%= app.name %></title>
+    <%- include('../../partials/theme_css') %>
+</head>
+
+<body>
+    <!-- Layout wrapper -->
+    <div class="layout-wrapper layout-navbar-full layout-horizontal layout-without-menu">
+        <div class="layout-container">
+            <%- include('../../partials/navbar') %>
+            <div class="layout-page">
+                <div class="content-wrapper">
+                    <%- include('../../partials/menu') %>
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="col-12">
+                            <h6 class="text-muted">Fatura SQL Sorguları</h6>
+                            <div class="nav-align-top mb-4">
+                                <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-home" aria-controls="navs-pills-left-home" aria-selected="true">Üst Bilgi</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-profile" aria-controls="navs-pills-left-profile" aria-selected="false" tabindex="-1">Cariler</button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-left-messages" aria-controls="navs-pills-left-messages" aria-selected="false" tabindex="-1">Kalemler</button>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="navs-pills-left-home" role="tabpanel">
+                                        <div class="col-12">
+                                            <div class="nav-align-top nav-tabs-shadow mb-4">
+                                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#header-main" aria-controls="header-main" aria-selected="true"> Ana Gövde</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#header-notes" aria-controls="header-notes" aria-selected="false" tabindex="-1"> Notlar</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#header-despatches" aria-controls="header-despatches" aria-selected="false" tabindex="-1"> İrsaliyeler</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#header-order" aria-controls="header-order" aria-selected="false" tabindex="-1"> Sipariş</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#header-update-num" aria-controls="header-update-num" aria-selected="false" tabindex="-1"> Numara Güncelleme</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#header-check-unsended" aria-controls="header-check-unsended" aria-selected="false" tabindex="-1"> Gönderilmemiş Liste</button>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="header-main" role="tabpanel">
+                                                        <div id="header_main_editor" class="header_main_editor" style="height:500px;border: 1px;border-radius: 10%;"></div>
+                                                        <!-- <textarea id="header_main_editor" name="header_main_editor" rows="20" class="form-control"></textarea> -->
+                                                    </div>
+                                                    <div class="tab-pane fade" id="header-notes" role="tabpanel">
+                                                      <div id="header_notes_editor" class="header_notes_editor" style="height:500px;border: 1px;border-radius: 10%;"></div>
+                                                        <!-- <textarea id="header_notes_editor" name="header_notes_editor" rows="20" class="form-control"></textarea> -->
+                                                    </div>
+                                                    <div class="tab-pane fade" id="header-despatches" role="tabpanel">
+                                                        <textarea id="header_despatches_editor" name="header_despatches_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="header-order" role="tabpanel">
+                                                        <textarea id="header_order_editor" name="header_order_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="header-update-num" role="tabpanel">
+                                                        <textarea id="header_update_num_editor" name="header_update_num_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="header-check-unsended" role="tabpanel">
+                                                        <textarea id="header_check_unsended_editor" name="header_check_unsended_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-pills-left-profile" role="tabpanel">
+                                        <div class="col-12">
+                                            <div class="nav-align-top nav-tabs-shadow mb-4">
+                                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#currents-customer" aria-controls="currents-customer" aria-selected="true"> Müşteri</button>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="currents-customer" role="tabpanel">
+                                                        <textarea id="currents_customer_editor" name="currents_customer_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="navs-pills-left-messages" role="tabpanel">
+                                        <div class="col-12">
+                                            <div class="nav-align-top nav-tabs-shadow mb-4">
+                                                <ul class="nav nav-tabs nav-fill" role="tablist">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#lines-main" aria-controls="lines-main" aria-selected="true"> Ana Gövde</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#lines-taxes" aria-controls="lines-taxes" aria-selected="true"> Ek Vergiler</button>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="lines-main" role="tabpanel">
+                                                        <textarea id="lines_main_editor" name="lines_main_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="tab-pane fade show" id="lines-taxes" role="tabpanel">
+                                                        <textarea id="lines_taxes_editor" name="lines_taxes_editor" rows="20" class="form-control"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 d-grid">
+                            <button id="save" type="button" class="btn btn-success waves-effect waves-light">Kaydet</button>
+                        </div>
+                    </div>
+                    <%- include('../../partials/footer') %>
+                    <div class="content-backdrop fade"></div>
+                </div>
+                <!-- Content wrapper -->
+            </div>
+            <!-- / Layout page -->
+        </div>
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+        <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+        <div class="drag-target"></div>
+    </div>
+    <%- include('../../partials/theme_js') %>
+    <script>
+        var require = {
+            paths: {
+                'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs'
+            }
+        };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.nls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/editor/editor.main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/basic-languages/sql/sql.min.js"></script>
+</body>
+
+</html>
