@@ -7,6 +7,7 @@ const {
   getDespatchHttpFunctionSql,
   getDespatchTableTriggerSql,
   getInvoiceQuerySql,
+  getDespatchQuerySql,
 } = require('../helpers/query.helper');
 const config = require('../config/config');
 
@@ -47,6 +48,11 @@ const getInvoiceQuery = async ({ companyId, query }) => {
   return result;
 };
 
+const getDespatchQuery = async ({ companyId, query }) => {
+  const result = await getDespatchQuerySql({ companyId, query });
+  return result;
+};
+
 module.exports = {
   getInvoiceHttpActivateQuery,
   getInvoiceHttpFunctionQuery,
@@ -55,4 +61,5 @@ module.exports = {
   getDespatchHttpFunctionQuery,
   getDespatchTableTriggerQuery,
   getInvoiceQuery,
+  getDespatchQuery,
 };

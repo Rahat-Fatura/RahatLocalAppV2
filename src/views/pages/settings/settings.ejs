@@ -201,7 +201,7 @@
                                                                                         <button id="run-http-activation-query" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
-                                                                                        <input id="http-activation-input" type="text" class="form-control">
+                                                                                        <textarea id="http-activation-input" class="form-control" rows="10"></textarea>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
                                                                                         <div class="d-flex gap-2 align-items-center">
@@ -210,7 +210,7 @@
                                                                                         <button id="run-http-function-query" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
-                                                                                        <input id="http-function-input" type="text" class="form-control">
+                                                                                        <textarea id="http-function-input" class="form-control" rows="15"></textarea>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
                                                                                         <div class="d-flex gap-2 align-items-center">
@@ -219,7 +219,7 @@
                                                                                         <button id="run-table-trigger-query" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
                                                                                     </div>
                                                                                     <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
-                                                                                        <input id="table-trigger-input" type="text" class="form-control">
+                                                                                        <textarea id="table-trigger-input" class="form-control" rows="25"></textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -305,10 +305,89 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row col-12">
-                                                                <div class="col-12 col-xl-4">
+                                                                <div class="col-12 col-xl-4 mb-4">
+                                                                    <button type="button" class="btn btn-info waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#operationalDespatchQueries">Operasyonel Sorguları Görüntüle</button>
+                                                                    <div class="modal fade" id="operationalDespatchQueries" tabindex="-1" style="display: none;" aria-hidden="true">
+                                                                        <div class="modal-dialog modal-lg modal-simple modal-enable-otp modal-dialog-centered">
+                                                                            <div class="modal-content p-3 p-md-5">
+                                                                                <div class="modal-body">
+                                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                                    <div class="text-center mb-4">
+                                                                                        <h3 class="mb-3">Sorgular</h3>
+                                                                                        <p class="text-muted">Daha önce çalışıtırılmadıysa veya dönem değiştirildiyse sırayla çalıştırınız</p>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
+                                                                                        <div class="d-flex gap-2 align-items-center">
+                                                                                            <h6 class="m-0">HTTP Aktivasyon Sorgusu</h6>
+                                                                                        </div>
+                                                                                        <button id="run-http-activation-query-despatch" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+                                                                                        <textarea id="http-activation-input-despatch" class="form-control" rows="10"></textarea>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
+                                                                                        <div class="d-flex gap-2 align-items-center">
+                                                                                            <h6 class="m-0">HTTP Fonksiyon Sorgusu</h6>
+                                                                                        </div>
+                                                                                        <button id="run-http-function-query-despatch" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+                                                                                        <textarea id="http-function-input-despatch" class="form-control" rows="15"></textarea>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
+                                                                                        <div class="d-flex gap-2 align-items-center">
+                                                                                            <h6 class="m-0">Tablo Trigger Sorgusu</h6>
+                                                                                        </div>
+                                                                                        <button id="run-table-trigger-query-despatch" type="button" class="btn btn-sm btn-success waves-effect waves-light">Getir</button>
+                                                                                    </div>
+                                                                                    <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+                                                                                        <textarea id="table-trigger-input-despatch" class="form-control" rows="25"></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div id="nbs-despatches-settings" <% if(data.numberBeforeSending) { %> style="display: block;" <% } else { %> style="display: none;" <% } %>>
+                                                                        <div class="mb-3">
+                                                                            <label class="switch switch-square switch-lg switch-success">
+                                                                                <input id="nbs-edespatch-checkbox" type="checkbox" class="switch-input" <% if(data.nbs.edespatch) { %> checked <% } %>>
+                                                                                <span class="switch-toggle-slider">
+                                                                                    <span class="switch-on">
+                                                                                        <i class="ti ti-check"></i>
+                                                                                    </span>
+                                                                                    <span class="switch-off">
+                                                                                        <i class="ti ti-x"></i>
+                                                                                    </span>
+                                                                                </span>
+                                                                                <span class="switch-label">
+                                                                                    <span class="badge badge-center rounded-pill bg-label-dark ms-2 me-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-custom-class="tooltip-label-dark" data-bs-original-title="Eğer seçenek aktifse, uygulamaya e-İrsaliye bildirimi geldikten sonra ilgili e-İrsaliye önce numaralandırılırıp entegre uygulamada güncellenir, sonrasında sisteme gönderilir. (16 haneli olmayan numaralar için numaralama yapılır.)">
+                                                                                        <i class="ti ti-question-mark"></i>
+                                                                                    </span>
+                                                                                    e-İrsaliyeleri gönderimden önce numarala
+                                                                                </span>
+                                                                            </label>
+                                                                        </div>
+                                                                        <div id="nbs-edespatch-serie-div" class="mb-3" <% if(data.nbs.edespatch) { %> style="display: block;" <% } else { %> style="display: none;" <% } %>>
+                                                                            <label for="nbs-edespatch-serie" class="form-label">Takip edilecek e-İrsaliye Serisi</label>
+                                                                            <input type="text" class="form-control" id="nbs-edespatch-serie" value="<%= data.nbs.series.edespatch %>">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="divider">
+                                                                    <div class="divider-text">Sorgular</div>
+                                                                </div>
+                                                                <div class="col-12 col-xl-2 mt-1">
                                                                     <div id="despatch-sqls-tree"></div>
                                                                 </div>
-                                                                <div class="col-12 col-xl-8">
+                                                                <div class="col-12 col-xl-10">
+                                                                    <div class="d-flex justify-content-between align-items-center pb-3 mb-1">
+                                                                        <div class="d-flex gap-2 align-items-center">
+                                                                            <h6 class="m-0"></h6>
+                                                                        </div>
+                                                                        <button id="copy-editor-query-despatch" type="button" class="btn btn-sm btn-success waves-effect waves-light">Kopyala</button>
+                                                                    </div>
                                                                     <div id="despatch_sql_editor" style="height:500px;border: 1px;border-radius: 10%;"></div>
                                                                 </div>
                                                             </div>

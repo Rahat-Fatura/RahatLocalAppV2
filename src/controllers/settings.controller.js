@@ -19,9 +19,15 @@ const getSettingsPage = catchAsync(async (req, res) => {
       rmq: company.rmq,
       numberBeforeSending: companyConfig.settings.numberBeforeSending,
       nbs: {
-        einvoice: companyConfig.settings.nbsDocuments?.einvoice.numbering,
-        earchive: companyConfig.settings.nbsDocuments?.earchive.numbering,
-        edespatch: companyConfig.settings.nbsDocuments?.edespatch.numbering,
+        einvoice:
+          companyConfig.settings.nbsDocuments?.einvoice.numbering === true ||
+          companyConfig.settings.nbsDocuments?.einvoice.numbering === 'true',
+        earchive:
+          companyConfig.settings.nbsDocuments?.earchive.numbering === true ||
+          companyConfig.settings.nbsDocuments?.earchive.numbering === 'true',
+        edespatch:
+          companyConfig.settings.nbsDocuments?.edespatch.numbering === true ||
+          companyConfig.settings.nbsDocuments?.edespatch.numbering === 'true',
         series: {
           einvoice: series.einvoice,
           earchive: series.earchive,
@@ -151,6 +157,12 @@ const getInvoiceCopySql = catchAsync(async (req, res) => {
   return res.send({ query: result });
 });
 
+const getDespatchCopySql = catchAsync(async (req, res) => {
+  const { companyId, query } = req.params;
+  const result = await operationalService.getDespatchQuery({ companyId, query });
+  return res.send({ query: result });
+});
+
 module.exports = {
   getSettingsPage,
   getInvoiceConfig,
@@ -171,4 +183,5 @@ module.exports = {
   getDespatchHttpFunctionSql,
   getDespatchTableTriggerSql,
   getInvoiceCopySql,
+  getDespatchCopySql,
 };

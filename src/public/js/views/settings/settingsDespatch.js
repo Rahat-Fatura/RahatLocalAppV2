@@ -1,4 +1,25 @@
 $(document).ready(function () {
+  const unsecuredCopyToClipboard = (text) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.error('Unable to copy to clipboard', err);
+    }
+    document.body.removeChild(textArea);
+  };
+
+  const copyToClipboard = (content) => {
+    if (window.isSecureContext && navigator.clipboard) {
+      navigator.clipboard.writeText(content);
+    } else {
+      unsecuredCopyToClipboard(content);
+    }
+  };
   const theme = $('html').hasClass('light-style') ? 'default' : 'default-dark';
   const isLight = $('html').hasClass('light-style');
   let selectedNode = 'Ana Gövde';
@@ -25,7 +46,7 @@ $(document).ready(function () {
     Kalemler: 'lines',
     Sürücü: 'shipment_driver',
     'Nakliye Firması': 'shipment_carrier',
-    Teslimat: 'shipment_delivery',
+    'Teslimat Adresi': 'shipment_delivery',
     'HTTP Aktifleştirme': 'activate_http',
     'HTTP Fonksiyonu': 'set_api_request',
     'Tablo Trigger': 'table_trigger',
@@ -218,6 +239,142 @@ $(document).ready(function () {
         Swal.fire({
           icon: 'error',
           title: 'Sorgular kaydedilemedi!',
+          text: `${err.responseJSON.message}`,
+        });
+      },
+    });
+  });
+  $('#run-http-activation-query-despatch').on('click', function () {
+    $('.content-wrapper').block({
+      message: `<div class="sk-wave sk-primary mx-auto">
+        <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect"></div>
+        <div class="sk-rect sk-wave-rect"></div>
+      </div>`,
+      css: {
+        backgroundColor: 'transparent',
+        border: '0',
+      },
+      overlayCSS: {
+        backgroundColor: '#fff',
+        opacity: 0.9,
+      },
+    });
+    $.ajax({
+      url: 'settings/sql/despatch/http-activate',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+        $('.content-wrapper').unblock();
+        $('#http-activation-input-despatch').val(data.query);
+      },
+      error: function (err) {
+        $('.content-wrapper').unblock();
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'HTTP Aktivasyon Sorgusu Çalıştırılamadı!',
+          text: `${err.responseJSON.message}`,
+        });
+      },
+    });
+  });
+  $('#run-http-function-query-despatch').on('click', function () {
+    $('.content-wrapper').block({
+      message: `<div class="sk-wave sk-primary mx-auto">
+        <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect"></div>
+        <div class="sk-rect sk-wave-rect"></div>
+      </div>`,
+      css: {
+        backgroundColor: 'transparent',
+        border: '0',
+      },
+      overlayCSS: {
+        backgroundColor: '#fff',
+        opacity: 0.9,
+      },
+    });
+    $.ajax({
+      url: 'settings/sql/despatch/http-function',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+        $('.content-wrapper').unblock();
+        $('#http-function-input-despatch').val(data.query);
+      },
+      error: function (err) {
+        $('.content-wrapper').unblock();
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'HTTP Fonksiyon Sorgusu Çalıştırılamadı!',
+          text: `${err.responseJSON.message}`,
+        });
+      },
+    });
+  });
+  $('#run-table-trigger-query-despatch').on('click', function () {
+    $('.content-wrapper').block({
+      message: `<div class="sk-wave sk-primary mx-auto">
+        <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect">
+        </div> <div class="sk-rect sk-wave-rect"></div>
+        <div class="sk-rect sk-wave-rect"></div>
+      </div>`,
+      css: {
+        backgroundColor: 'transparent',
+        border: '0',
+      },
+      overlayCSS: {
+        backgroundColor: '#fff',
+        opacity: 0.9,
+      },
+    });
+    $.ajax({
+      url: 'settings/sql/despatch/table-trigger',
+      type: 'GET',
+      success: function (data) {
+        console.log(data);
+        $('.content-wrapper').unblock();
+        $('#table-trigger-input-despatch').val(data.query);
+      },
+      error: function (err) {
+        $('.content-wrapper').unblock();
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Tablo Trigger Sorgusu Çalıştırılamadı!',
+          text: `${err.responseJSON.message}`,
+        });
+      },
+    });
+  });
+
+  $('#copy-editor-query-despatch').on('click', function () {
+    const queryName = descriptionMapping[selectedNode];
+    $.ajax({
+      url: `settings/sql/despatch/copy/${queryName}`,
+      success: async function (data) {
+        const query = data.query;
+        console.log(query);
+        copyToClipboard(query);
+        Swal.fire({
+          icon: 'success',
+          title: 'Sorgu kopyalandı!',
+          text: `Sorgu başarıyla kopyalandı.`,
+        });
+      },
+      error: function (err) {
+        console.log(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Sorgu kopyalanamadı!',
           text: `${err.responseJSON.message}`,
         });
       },

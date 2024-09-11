@@ -1,6 +1,6 @@
 const rahatsistem = require('./rahatsistem.service');
 const documentsSchema = require('../schemas/documents.schema');
-const { createInvoiceJson } = require('../helpers/json.helper');
+const { createInvoiceJson, createDespatchJson } = require('../helpers/json.helper');
 const logger = require('../config/logger');
 const { documentModel, companyModel } = require('../models');
 
@@ -54,9 +54,7 @@ const upsertDocument = async ({ externalId, movementType, documentType, companyI
     if (documentType === 'invoice') {
       docJson = await createInvoiceJson({ erpId: externalId, companyId });
     } else if (documentType === 'despatch') {
-      // TODO: Create document JSON from local database
-      throw new Error('Despatch not implemented yet.');
-      // docJson = await createDespatchJson(id);
+      docJson = await createDespatchJson({ erpId: externalId, companyId });
     }
   } catch (error) {
     logger.error(error);

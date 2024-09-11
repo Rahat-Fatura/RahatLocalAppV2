@@ -217,6 +217,43 @@ $(document).ready(function () {
       });
     }
   });
+  $('#nbs-edespatch-checkbox').change(function () {
+    if (this.checked) {
+      $.ajax({
+        url: 'settings/document.nbs/edespatch/activate',
+        type: 'PUT',
+        success: function (data) {
+          if (data.success) {
+            toastr.success('e-İrsaliye gönderimden önce numaralama <b>aktif</b> edildi.');
+            $('#nbs-edespatch-serie-div').slideDown(250);
+          }
+        },
+        error: function (err) {
+          toastr.error('e-İrsaliye gönderimden önce numaralama aktif <b>edilemedi</b>.' + JSON.stringify(err.responseJSON));
+          $('#nbs-edespatch-serie-div').slideUp(250);
+          console.log(err);
+          $('#nbs-edespatch-checkbox').prop('checked', false);
+        },
+      });
+    } else {
+      $.ajax({
+        url: 'settings/document.nbs/edespatch/deactivate',
+        type: 'PUT',
+        success: function (data) {
+          if (data.success) {
+            toastr.success('e-İrsaliye gönderimden önce numaralama <b>kaldırıldı</b>.');
+            $('#nbs-edespatch-serie-div').slideUp(250);
+          }
+        },
+        error: function (err) {
+          toastr.error('e-İrsaliye gönderimden önce numaralama <b>kaldırılamadı</b>.' + JSON.stringify(err.responseJSON));
+          $('#nbs-edespatch-serie-div').slideDown(250);
+          console.log(err);
+          $('#nbs-edespatch-checkbox').prop('checked', true);
+        },
+      });
+    }
+  });
   $('#nbs-einvoice-serie').on('focusout', function () {
     if (!$('#nbs-einvoice-serie').inputmask('isComplete')) {
       return;
@@ -251,6 +288,25 @@ $(document).ready(function () {
       },
       error: function (err) {
         toastr.error('e-Arşiv numaralama serisi <b>güncellenemedi</b>.' + JSON.stringify(err.responseJSON));
+        console.log(err);
+      },
+    });
+  });
+  $('#nbs-edespatch-serie').on('focusout', function () {
+    if (!$('#nbs-edespatch-serie').inputmask('isComplete')) {
+      return;
+    }
+    $.ajax({
+      url: 'settings/document.nbs/document/serie',
+      type: 'PUT',
+      data: { docType: 'edespatch', serie: $('#nbs-edespatch-serie').val() },
+      success: function (data) {
+        if (data.success) {
+          toastr.success('e-İrsaliye numaralama serisi <b>güncellendi</b>.');
+        }
+      },
+      error: function (err) {
+        toastr.error('e-İrsaliye numaralama serisi <b>güncellenemedi</b>.' + JSON.stringify(err.responseJSON));
         console.log(err);
       },
     });

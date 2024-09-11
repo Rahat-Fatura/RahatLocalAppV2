@@ -35,6 +35,7 @@ router.get('/:companyId/settings/sql/invoice/copy/:query', settingsController.ge
 router.get('/:companyId/settings/sql/despatch/http-activate', settingsController.getDespatchHttpActivateSql);
 router.get('/:companyId/settings/sql/despatch/http-function', settingsController.getDespatchHttpFunctionSql);
 router.get('/:companyId/settings/sql/despatch/table-trigger', settingsController.getDespatchTableTriggerSql);
+router.get('/:companyId/settings/sql/despatch/copy/:query', settingsController.getDespatchCopySql);
 
 router.get('/:companyId/movements', movementsController.getDocumentsMovementPage);
 router.get('/:companyId/movements/dt-list', movementsController.getDocumentsList);

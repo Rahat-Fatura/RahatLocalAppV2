@@ -70,6 +70,58 @@ const createInvoiceJson = async ({ erpId, companyId }) => {
   return invoiceJson;
 };
 
+const createDespatchJson = async ({ erpId, companyId }) => {
+  const companyConfig = await settingsService.getCompanyConfig({ companyId });
+  const queue = new Queue(companyConfig.settings.queueLength);
+  let despatchJson = null;
+  for (let i = 0; i < Number(companyConfig.settings.numberOfRetries); i += 1) {
+    const queryResults = await query.runAllDespatchQuery({ id: erpId, companyId });
+    const type = queryResults.main.Type ? { Type: queryResults.main.Type } : null;
+    const profile = queryResults.main.Profile ? { Profile: queryResults.main.Profile } : null;
+    const numberOrSerie = queryResults.main.NumberOrSerie ? { NumberOrSerie: queryResults.main.NumberOrSerie } : null;
+    const shipmentObject =
+      queryResults.shipment_carrier || queryResults.shipment_delivery || queryResults.shipment_driver
+        ? {
+            Shipment: {
+              ...queryResults.shipment_carrier,
+              ...queryResults.shipment_delivery,
+              ...queryResults.shipment_driver,
+            },
+          }
+        : null;
+    const queueJson = {
+      integrator: companyConfig.integrator.name,
+      document: {
+        External: {
+          ID: queryResults.main.external_id,
+          RefNo: queryResults.main.external_refno,
+          Type: queryResults.main.external_type,
+        },
+        IssueDateTime: datetime.format(queryResults.main.IssueDateTime, 'YYYY-MM-DDTHH:mm:ss', true),
+        ...type,
+        ...profile,
+        ...numberOrSerie,
+        ...shipmentObject,
+        Notes: queryResults.notes,
+        Customer: queryResults.customer,
+        Lines: queryResults.lines,
+      },
+    };
+    queue.push(queueJson);
+    if (await queue.isValid()) {
+      despatchJson = queueJson;
+      break;
+    } else {
+      await sleep(Number(companyConfig.settings.queueCreatorWaitingMs));
+    }
+  }
+  if (!despatchJson) {
+    throw new Error('Fatura doğrulanamadı!');
+  }
+  return despatchJson;
+};
+
 module.exports = {
   createInvoiceJson,
+  createDespatchJson,
 };
