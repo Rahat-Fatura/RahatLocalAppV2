@@ -132,7 +132,7 @@ if (typeof TemplateCustomizer !== 'undefined') {
     defaultTheme: 0,
     // defaultStyle: 'system',
     // defaultTextDir: 'rtl',
-    // defaultContentLayout: 'wide',
+    defaultContentLayout: 'wide',
     // defaultHeaderType: 'static',
     // defaultMenuCollapsed: true,
     // defaultNavbarType: 'sticky',

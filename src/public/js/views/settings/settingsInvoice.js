@@ -33,6 +33,7 @@ $(document).ready(function () {
     customer: '',
     lines: '',
     line_taxes: '',
+    additionals: '',
     activate_http: '',
     set_api_request: '',
     table_trigger: '',
@@ -47,6 +48,7 @@ $(document).ready(function () {
     Müşteri: 'customer',
     Kalemler: 'lines',
     Vergiler: 'line_taxes',
+    Ekler: 'additionals',
     'HTTP Aktifleştirme': 'activate_http',
     'HTTP Fonksiyonu': 'set_api_request',
     'Tablo Trigger': 'table_trigger',
@@ -138,6 +140,10 @@ $(document).ready(function () {
                 text: 'Gönderilmemiş Liste',
                 type: 'sql',
               },
+              {
+                text: 'Ekler',
+                type: 'sql',
+              }
             ],
           },
           {

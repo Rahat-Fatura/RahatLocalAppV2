@@ -29,10 +29,13 @@ $(document).ready(function () {
     update_number: '',
     check_unsended: '',
     customer: '',
+    buyer_customer: '',
+    seller_supplier: '',
     lines: '',
     shipment_driver: '',
     shipment_carrier: '',
     shipment_delivery: '',
+    additionals: '',
     activate_http: '',
     set_api_request: '',
     table_trigger: '',
@@ -43,6 +46,9 @@ $(document).ready(function () {
     'Numara Güncelleme': 'update_number',
     'Gönderilmemiş Liste': 'check_unsended',
     Müşteri: 'customer',
+    'Alıcı Müşteri': 'buyer_customer',
+    'Satıcı Tedarikçi': 'seller_supplier',
+    Ekler: 'additionals',
     Kalemler: 'lines',
     Sürücü: 'shipment_driver',
     'Nakliye Firması': 'shipment_carrier',
@@ -129,6 +135,10 @@ $(document).ready(function () {
                 text: 'Gönderilmemiş Liste',
                 type: 'sql',
               },
+              {
+                text: 'Ekler',
+                type: 'sql',
+              }
             ],
           },
           {
@@ -139,6 +149,14 @@ $(document).ready(function () {
             children: [
               {
                 text: 'Müşteri',
+                type: 'sql',
+              },
+              {
+                text: 'Alıcı Müşteri',
+                type: 'sql',
+              },
+              {
+                text: 'Satıcı Tedarikçi',
                 type: 'sql',
               },
             ],

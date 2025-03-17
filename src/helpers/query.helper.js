@@ -121,6 +121,7 @@ const runAllInvoiceQuery = async ({ id, companyId }) => {
     notes: [],
     despatches: [],
     order: {},
+    additionals: [],
   };
   [results.main] = await database.$queryRawUnsafe(queries.main);
   if (!results.main) {
@@ -150,8 +151,11 @@ const runAllInvoiceQuery = async ({ id, companyId }) => {
   if (queries.order) {
     [results.order] = await database.$queryRawUnsafe(queries.order);
   }
+  if (queries.additionals) {
+    results.additionals = await database.$queryRawUnsafe(queries.additionals);
+  }
   for (let i = 0; i < results.lines.length; i += 1) {
-    if (results.lines[i].ID) {
+    if (results.lines[i].ID && queries.line_taxes) {
       const updatedQuery = queries.line_taxes.replaceAll('@lineId', results.lines[i].ID);
       results.lines[i]['Taxes'] = await database.$queryRawUnsafe(updatedQuery);
     }
@@ -171,11 +175,14 @@ const runAllDespatchQuery = async ({ id, companyId }) => {
   const results = {
     main: {},
     customer: {},
+    buyer_customer: {},
+    seller_supplier: {},
     lines: [],
     notes: [],
     shipment_driver: {},
     shipment_carrier: {},
     shipment_delivery: {},
+    additionals: [],
   };
   [results.main] = await database.$queryRawUnsafe(queries.main);
   if (!results.main) {
@@ -186,6 +193,12 @@ const runAllDespatchQuery = async ({ id, companyId }) => {
   if (queries.notes) {
     results.notes = await database.$queryRawUnsafe(queries.notes);
   }
+  if (queries.buyer_customer) {
+    [results.buyer_customer] = await database.$queryRawUnsafe(queries.buyer_customer);
+  }
+  if (queries.seller_supplier) {
+    [results.seller_supplier] = await database.$queryRawUnsafe(queries.seller_supplier);
+  }
   if (queries.shipment_driver) {
     [results.shipment_driver] = await database.$queryRawUnsafe(queries.shipment_driver);
   }
@@ -194,6 +207,9 @@ const runAllDespatchQuery = async ({ id, companyId }) => {
   }
   if (queries.shipment_delivery) {
     [results.shipment_delivery] = await database.$queryRawUnsafe(queries.shipment_delivery);
+  }
+  if (queries.additionals) {
+    results.additionals = await database.$queryRawUnsafe(queries.additionals);
   }
   return results;
 };
