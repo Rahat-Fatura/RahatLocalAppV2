@@ -59,9 +59,14 @@ const createInvoiceJson = async ({ erpId, companyId }) => {
     const type = queryResults.main.Type ? { Type: queryResults.main.Type } : null;
     const profile = queryResults.main.Profile ? { Profile: queryResults.main.Profile } : null;
     const despatchObject = queryResults.despatches.length ? { Despatches: queryResults.despatches } : null;
-    const orderObject = queryResults.order.Value ? { Order: queryResults.order } : null;
+    const orderObject = queryResults.order?.Value ? { Order: queryResults.order } : null;
     const numberOrSerie = queryResults.main.NumberOrSerie ? { NumberOrSerie: queryResults.main.NumberOrSerie } : null;
-    const additionals = queryResults.additionals.length ? { Additionals: queryResults.main.Additionals } : null;
+    const additionals = queryResults.additionals.length ? { Additionals: queryResults.additionals } : null;
+    const taxExemptionObject = queryResults.main.KDVTaxExemption
+      ? { TaxExemptions: { KDV: queryResults.main.TaxExemption } }
+      : null;
+    const currencyCode = queryResults.main.CurrencyCode ? { CurrencyCode: queryResults.main.CurrencyCode } : null;
+    const exhangeRate = queryResults.main.ExchangeRate ? { ExchangeRate: queryResults.main.ExchangeRate } : null;
     const queueJson = {
       integrator: companyConfig.integrator.name,
       document: {
@@ -77,6 +82,9 @@ const createInvoiceJson = async ({ erpId, companyId }) => {
         ...profile,
         ...numberOrSerie,
         ...additionals,
+        ...taxExemptionObject,
+        ...currencyCode,
+        ...exhangeRate,
         Notes: queryResults.notes,
         Customer: queryResults.customer,
         Lines: queryResults.lines,
@@ -133,18 +141,37 @@ const createDespatchJson = async ({ erpId, companyId }) => {
         }),
       };
     }
+    if (queryResults.buyer_customer?.Identifications) {
+      queryResults.buyer_customer = {
+        ..._.omit(queryResults.buyer_customer, 'Identifications'),
+        Identifications: queryResults.buyer_customer.Identifications.split(',').map((item) => {
+          const [type, value] = item.split(':');
+          return { SchemeID: type, Value: value };
+        }),
+      };
+    }
+    if (queryResults.seller_supplier?.Identifications) {
+      queryResults.seller_supplier = {
+        ..._.omit(queryResults.seller_supplier, 'Identifications'),
+        Identifications: queryResults.seller_supplier.Identifications.split(',').map((item) => {
+          const [type, value] = item.split(':');
+          return { SchemeID: type, Value: value };
+        }),
+      };
+    }
     const type = queryResults.main.Type ? { Type: queryResults.main.Type } : null;
     const profile = queryResults.main.Profile ? { Profile: queryResults.main.Profile } : null;
     const numberOrSerie = queryResults.main.NumberOrSerie ? { NumberOrSerie: queryResults.main.NumberOrSerie } : null;
-    const additionals = queryResults.additionals.length ? { Additionals: queryResults.main.Additionals } : null;
+    const additionals = queryResults.additionals.length ? { Additionals: queryResults.additionals } : null;
     const buyerCustomer = queryResults.buyer_customer ? { BuyerCustomer: queryResults.buyer_customer } : null;
     const sellerSupplier = queryResults.seller_supplier ? { SellerSupplier: queryResults.seller_supplier } : null;
+    const orderObject = queryResults.order?.Value ? { Order: queryResults.order } : null;
     const shipmentObject =
       queryResults.shipment_carrier || queryResults.shipment_delivery || queryResults.shipment_driver
         ? {
             Shipment: {
               ...queryResults.shipment_carrier,
-              ...queryResults.shipment_delivery,
+              ...(queryResults.shipment_delivery ? { Delivery: { Address: { ...queryResults.shipment_delivery } } } : {}),
               ...queryResults.shipment_driver,
             },
           }
@@ -162,6 +189,7 @@ const createDespatchJson = async ({ erpId, companyId }) => {
         ...profile,
         ...numberOrSerie,
         ...shipmentObject,
+        ...orderObject,
         ...additionals,
         Notes: queryResults.notes,
         Customer: queryResults.customer,

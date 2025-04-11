@@ -177,6 +177,7 @@ const runAllDespatchQuery = async ({ id, companyId }) => {
     customer: {},
     buyer_customer: {},
     seller_supplier: {},
+    order: {},
     lines: [],
     notes: [],
     shipment_driver: {},
@@ -198,6 +199,9 @@ const runAllDespatchQuery = async ({ id, companyId }) => {
   }
   if (queries.seller_supplier) {
     [results.seller_supplier] = await database.$queryRawUnsafe(queries.seller_supplier);
+  }
+  if (queries.order) {
+    [results.order] = await database.$queryRawUnsafe(queries.order);
   }
   if (queries.shipment_driver) {
     [results.shipment_driver] = await database.$queryRawUnsafe(queries.shipment_driver);
